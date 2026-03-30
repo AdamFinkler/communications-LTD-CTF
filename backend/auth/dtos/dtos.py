@@ -1,4 +1,6 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
+
 
 class RegisterDTO(BaseModel):
     username: str
