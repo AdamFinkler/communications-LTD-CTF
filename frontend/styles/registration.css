@@ -1,0 +1,62 @@
+/* .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+/* Form box */
+.form {
+  background: var(--color-white);
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  height: 80%;
+  align-items: center;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 auto;
+}
+
+.login
+{
+ height: 60%;
+}
+
+/* Form text */
+.form h1 {
+  font-size: 28px;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.form p {
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+/* Inputs */
+.form input {
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition);
+  margin-bottom: 40px;
+  min-width: 300px;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+
+/* Button override (better spacing) */
+.form button {
+  margin-top: auto;
+  width: fit-content;
+  align-self: center;
+}
