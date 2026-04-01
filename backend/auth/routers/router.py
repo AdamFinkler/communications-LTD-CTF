@@ -8,7 +8,7 @@ from auth.dtos.dtos import RegisterDTO, LoginDTO, ForgotPasswordDTO, ChangePassw
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-@router.post("/register")
+@router.post("/registration")
 def register_user(user: RegisterDTO):
     try:
         return registration_service(user)

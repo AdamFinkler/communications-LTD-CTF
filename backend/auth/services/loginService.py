@@ -21,7 +21,7 @@ def login_service(user: LoginDTO):
         
         else:
             return {
-                "message": "Invadlid username or password"
+                "message": "Invalid username or password"
             }
 
 

@@ -11,6 +11,7 @@ def registration_service(user: RegisterDTO):
             VALUES ('{user.username}', '{user.email}', '{user.password}')
             """
         )
+        
         connection.commit()
 
         return {
