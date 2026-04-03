@@ -35,7 +35,7 @@ def reset_password(user: ForgotPasswordDTO):
             existing_user = cursor.fetchone()
             
             if existing_user:
-                send_email(existing_user[0], f"Click the link to reset your password: {code_hash(user.email)}")
+                send_email(existing_user[0], f"One time code for changing password: {code_hash(user.email)}")
                 return {
                     "message": "Password reset link sent to email" 
                 }
@@ -65,21 +65,18 @@ def code_hash(email):
 
 def send_email(to_email, body):
     SENDER_EMAIL = "ltdcommrp@gmail.com"
-    SENDER_PASSWORD = "nksr dbog ewcj pzwa"  # Use an App Password, not your login password
+    SENDER_PASSWORD = "nksr dbog ewcj pzwa"
     RECIPIENT_EMAIL = to_email
 
-    # 2. Create the message
     msg = EmailMessage()
     msg["Subject"] = "Reset Password"
     msg["From"] = SENDER_EMAIL
     msg["To"] = RECIPIENT_EMAIL
     msg.set_content(body)
 
-# 3. Connect and send
     try:
-        # For Gmail/Outlook, use port 587 with STARTTLS
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()  # Secure the connection
+            server.starttls()
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
             server.send_message(msg)
         print("Email sent successfully!")
