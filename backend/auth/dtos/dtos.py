@@ -16,5 +16,5 @@ class ChangePasswordDTO(BaseModel):
     new_password: str
 
 class ForgotPasswordDTO(BaseModel):
-    username: Optional[str] = None
     email: Optional[EmailStr] = None
+    code: Optional[str] = None

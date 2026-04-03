@@ -24,9 +24,9 @@ def login_user(user: LoginDTO):
         return {"message": "error thrown from login service"}
     
 
-@router.get("/forgot-password")
-def forgot_password():
-    return forgot_password_service()
+@router.post("/forgot-password")
+def forgot_password(user: ForgotPasswordDTO):
+    return forgot_password_service(user)
 
 @router.get("/change-password")
 def change_password():
