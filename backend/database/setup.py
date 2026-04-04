@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS packages (
     package_name TEXT PRIMARY KEY,
     download_speed INTEGER NOT NULL,
     upload_speed INTEGER NOT NULL, 
-    related_user_id INTEGER NOT NULL,
+    related_user_id INTEGER NOT NULL
 )
 """)
 
