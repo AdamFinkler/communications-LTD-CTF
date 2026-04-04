@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/customers.css" />
+</head>
+<body>
+  <form class="form customers" action="#" method="post">
+    <h1>Hey {nameholder}, manage your customers:</h1>
+
+    <h2>Your Customers</h2>
+    <ul>
+      <li>{customerName1} - Pro Fiber 500</li>
+      <li>{customerName2} - Business 1000</li>
+      <li>{customerName3} - Starter 200</li>
+    </ul>
+
+    <h2>Add Customer</h2>
+    <input type="text" placeholder="Customer Name" required />
+
+    <select required>
+      <option value="">Select Package</option>
+      <option value="starter-200">Starter 200</option>
+      <option value="pro-500">Pro Fiber 500</option>
+      <option value="business-1000">Business 1000</option>
+    </select>
+
+    <button type="submit">Add Customer</button>
+  </form>
+</body>
+</html>
