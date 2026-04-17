@@ -4,25 +4,47 @@ from database.connection import connection, cursor
 
 def login_service(user: LoginDTO):
 
+
+
     try:
         cursor.execute(
             f"""
-            select username FROM users WHERE username = '{user.username}' AND password = '{user.password}'
+            select username FROM users WHERE username = '{user.username}'
+            """
+        )
+        
+
+        existing_user = cursor.fetchone()
+
+        if existing_user == None:
+            raise Exception("Username does not exist")
+        
+    except Exception as e:
+        return{
+            "message": str(e)
+        }
+
+
+
+    try:
+        cursor.execute(
+            f"""
+            select username, password FROM users WHERE username = '{user.username}' AND password = '{user.password}'
             """
         )
 
         existing_user = cursor.fetchone()
         
-        if existing_user:
-            return {
+        if existing_user == None:
+
+            raise Exception("Wrong password")
+
+
+        return {
                 "message": "Login successful",
                 "username": existing_user[0]
             }
         
-        else:
-            return {
-                "message": "Invalid username or password"
-            }
 
 
     except Exception as e:
