@@ -13,7 +13,7 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS packages (
     package_name TEXT PRIMARY KEY,
     download_speed INTEGER NOT NULL,
-    upload_speed INTEGER NOT NULL, 
+    upload_speed INTEGER NOT NULL,  
     related_user_id INTEGER NOT NULL,
 )
 """)
@@ -24,8 +24,6 @@ CREATE TABLE IF NOT EXISTS customers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     customer_name TEXT NOT NULL,
     package_id INTEGER NOT NULL, 
-    related_user_id INTEGER NOT NULL,
-    FOREIGN KEY (related_user_id) REFERENCES users(id)
 )
 """)
 
