@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS packages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     package_name TEXT NOT NULL UNIQUE,
     download_speed INTEGER NOT NULL,
-    upload_speed INTEGER NOT NULL
+    upload_speed INTEGER NOT NULL,
+    monthly_price REAL NOT NULL
 )
 """)
 
