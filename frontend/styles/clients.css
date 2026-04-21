@@ -10,7 +10,7 @@
 
 .client-row {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1.5fr 1fr;
   align-items: center;
   padding: 22px 30px;
   border-bottom: 1px solid var(--color-border);
@@ -33,6 +33,7 @@
   letter-spacing: 0.5px;
   font-size: 14px;
 }
+
 .client-row p {
   margin-bottom: 0;
   font-size: 16px;
@@ -43,8 +44,13 @@
   background-color: var(--color-accent-soft);
 }
 
+.client-row p:nth-child(2) {
+  justify-self: center;
+  font-weight: 500;
+}
+
 .client-row p:last-child {
   justify-self: end;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-primary);
 }

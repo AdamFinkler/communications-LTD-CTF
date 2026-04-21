@@ -28,6 +28,8 @@ def login_user(user: LoginDTO):
 def forgot_password():
     return forgot_password_service()
 
+
 @router.get("/change-password")
 def change_password():
     return change_password_service()
+

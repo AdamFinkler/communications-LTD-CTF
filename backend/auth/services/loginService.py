@@ -22,7 +22,7 @@ def login_service(user: LoginDTO):
     except Exception as e:
         return{
             "message": str(e)
-        }
+            }
 
 
 
@@ -39,10 +39,35 @@ def login_service(user: LoginDTO):
 
             raise Exception("Wrong password")
 
+    except Exception as e:
+        return {
+            "message": str(e)
+        }
 
+    try:
+        cursor.execute(f"""
+        select id, package_name, download_speed, upload_speed, monthly_price from packages
+                       """)
+        
+        existing_packages = cursor.fetchall()
+        
+        cursor.execute(f"""
+            select package_id, customer_name from customers
+                       """)
+
+        existing_customers = cursor.fetchall()
+
+        if existing_customers == False:
+
+            raise Exception("no customers to display")
+        
         return {
                 "message": "Login successful",
-                "username": existing_user[0]
+                "username": existing_user[0],
+                "data": {
+                    "packages": existing_packages,
+                    "customers": existing_customers 
+                }
             }
         
 

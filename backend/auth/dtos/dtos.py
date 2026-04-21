@@ -18,3 +18,12 @@ class ChangePasswordDTO(BaseModel):
 class ForgotPasswordDTO(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
+
+
+class GetPackageDTO(BaseModel):
+    package_id: int
+    package_name: str
+    download_speed: int
+    upload_speed: int
+    monthly_price: float
+
