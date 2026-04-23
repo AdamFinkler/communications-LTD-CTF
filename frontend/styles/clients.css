@@ -10,8 +10,9 @@
 
 .client-row {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1fr;
+  grid-template-columns: 2fr 1.5fr 1fr auto;
   align-items: center;
+  gap: 20px;
   padding: 22px 30px;
   border-bottom: 1px solid var(--color-border);
   transition: var(--transition);
