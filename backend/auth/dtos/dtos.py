@@ -12,6 +12,7 @@ class LoginDTO(BaseModel):
     password: str
 
 class ChangePasswordDTO(BaseModel):
+    username: str
     current_password: str
     new_password: str
 
