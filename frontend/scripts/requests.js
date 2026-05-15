@@ -21,3 +21,21 @@ export const LoginRequest = async (data) => {
     console.error("Error:", error);
   }
 };
+
+export const ChangePasswordRequest = async (data) => {
+  try {
+    const response = await fetch(`${baseURL}/auth/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: "Failed to change password" };
+  }
+};

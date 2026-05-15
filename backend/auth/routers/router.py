@@ -31,5 +31,13 @@ def forgot_password():
 
 @router.get("/change-password")
 def change_password():
-    return change_password_service()
+    return {"message": "change password route"}
+
+
+@router.post("/change-password")
+def change_password_post(user: ChangePasswordDTO):
+    try:
+        return change_password_service(user)
+    except Exception as e:
+        return {"message": "error thrown from change password service"}
 
