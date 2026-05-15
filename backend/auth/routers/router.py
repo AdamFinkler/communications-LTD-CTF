@@ -35,7 +35,7 @@ def forgot_password():
 def change_password():
     return change_password_service()
 
-@router.delete("/delete-package/{customer_name}")
+@router.delete("/delete-package/{customer_name:path}")
 def delete_package(customer_name: str):
     return delete_package_service(customer_name)
 
