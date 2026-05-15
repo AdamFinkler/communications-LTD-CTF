@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS customers (
 
 
 cursor.execute("""
-INSERT INTO packages (id, package_name, download_speed, upload_speed, monthly_price)
+INSERT or ignore INTO packages (id, package_name, download_speed, upload_speed, monthly_price)
 VALUES
     (1,'Starter 100', 100, 20, 79.90),
     (2, 'Home 300', 300, 50, 109.90),
@@ -41,7 +41,7 @@ VALUES
 
 
 cursor.execute("""
-INSERT INTO customers (package_id, customer_name)
+INSERT or ignore INTO customers (package_id, customer_name)
 VALUES
     (2, 'Pizza America'),
     (3, 'Southern Garage Ltd'),
