@@ -60,3 +60,14 @@
   width: fit-content;
   align-self: center;
 }
+
+.change-password-link {
+  margin-top: 12px;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.change-password-link:hover {
+  color: var(--color-primary-hover);
+}

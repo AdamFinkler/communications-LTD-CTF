@@ -1,2 +1,39 @@
-def change_password_service():
-    return {"messsage": "change password route"}
+from auth.dtos.dtos import ChangePasswordDTO
+from database.connection import connection, cursor
+
+
+def change_password_service(user: ChangePasswordDTO):
+    try:
+        cursor.execute(
+            f"""
+            select username, password FROM users WHERE username = '{user.username}'
+            """
+        )
+        existing_user = cursor.fetchone()
+
+        if existing_user == None:
+            raise Exception("Username does not exist")
+
+        if existing_user[1] != user.current_password:
+            raise Exception("Current password is incorrect")
+
+    except Exception as e:
+        return {"message": str(e)}
+
+    try:
+        cursor.execute(
+            f"""
+            update users
+            set password = '{user.new_password}'
+            where username = '{user.username}'
+            """
+        )
+        connection.commit()
+
+        return {"message": "Password changed successfully"}
+
+    except Exception as e:
+        return {
+            "message": "Change password failed",
+            "error": str(e)
+        }

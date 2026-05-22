@@ -12,9 +12,23 @@ class LoginDTO(BaseModel):
     password: str
 
 class ChangePasswordDTO(BaseModel):
+    username: str
     current_password: str
     new_password: str
 
 class ForgotPasswordDTO(BaseModel):
     email: Optional[EmailStr] = None
     code: Optional[str] = None
+
+
+class GetPackageDTO(BaseModel):
+    package_id: int
+    package_name: str
+    download_speed: int
+    upload_speed: int
+    monthly_price: float
+
+class CreateCustomerDTO(BaseModel):
+    package_id: int
+    customer_name: str
+
