@@ -1,4 +1,5 @@
 import sqlite3
+import hmac
 from auth.dtos.dtos import ForgotPasswordDTO
 from database.connection import connection, cursor
 import hashlib
@@ -8,7 +9,7 @@ import string
 import secrets
 
 hash_dic = {}
-
+SECRET_KEY = "COMM_LTD_CTF"
 def forgot_password_service(user: ForgotPasswordDTO):
     if user.email in hash_dic:
             if (verify_code(user.email,user.code)):
@@ -52,7 +53,16 @@ def reset_password(user: ForgotPasswordDTO):
             }
 
 def verify_code(email, code):
-    if email in hash_dic and code is not None and hash_dic[email] == hashlib.sha1(code.encode()).hexdigest():
+    if email not in hash_dic or code is None:
+        return False
+    
+    hashed_code = hmac.new(
+        SECRET_KEY.encode(),
+        code.encode(),
+        hashlib.sha1
+    ).hexdigest()
+
+    if hmac.compare_digest(hash_dic[email], hashed_code):
         del hash_dic[email]
         return True
     return False
@@ -60,7 +70,11 @@ def verify_code(email, code):
 def code_hash(email):
     digits = string.digits
     code = ''.join(secrets.choice(digits) for _ in range(6))
-    hash_dic[email] = hashlib.sha1(code.encode()).hexdigest()
+    hash_dic[email] = hmac.new(
+        SECRET_KEY.encode(),
+        code.encode(),
+        hashlib.sha1
+    ).hexdigest()
     return code 
 
 def send_email(to_email, body):
