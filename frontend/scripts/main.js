@@ -12,7 +12,7 @@ loginButton.addEventListener("click", async (event) => {
   const pass = passwordInput.value;
 
   const data = await LoginRequest({ username: user, password: pass });
-
+  console.log(`data is ${data}`)
   arrayOfPackages.push(data.packages);
   arrayOfCustomers.push(data.customers);
 
