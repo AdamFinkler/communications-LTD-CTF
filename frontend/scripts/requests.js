@@ -22,6 +22,47 @@ export const LoginRequest = async (data) => {
   }
 };
 
+export const ForgotPasswordRequest = async (data) => {
+  try {
+    const response = await fetch(`${baseURL}/auth/forgot-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    return result;
+
+  } catch (error) {
+    console.error("Error:", error);
+
+    return {
+      message: "Failed to send email",
+    };
+  }
+};
+
+export const ChangePasswordAfterVerification = async (data) => {
+  try {
+    const response = await fetch(`${baseURL}/auth/change-password-after-verification`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: "Failed to change password" };
+  }
+};
+
+
 export const ChangePasswordRequest = async (data) => {
   try {
     const response = await fetch(`${baseURL}/auth/change-password`, {
@@ -37,5 +78,43 @@ export const ChangePasswordRequest = async (data) => {
   } catch (error) {
     console.error("Error:", error);
     return { message: "Failed to change password" };
+  }
+};
+
+export const DeleteCustomerRequest = async (customerName) => {
+  try {
+    const response = await fetch(`${baseURL}/auth/delete-package/${customerName}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: "Error deleting customer" };
+  }
+};
+
+export const CreateCustomerRequest = async (packageId, customerName) => {
+  try {
+    const response = await fetch(`${baseURL}/auth/create-customer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        package_id: packageId,
+        customer_name: customerName,
+      }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: "Error creating customer" };
   }
 };
