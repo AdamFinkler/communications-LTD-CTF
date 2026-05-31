@@ -66,7 +66,25 @@ def login_service(user: LoginDTO, ip: str):
                     increaseLoginFailes(ip,user)
                     return {"message": "Wrong username,password or code"}
             else:
-                return loginUser(ip,existing_user)
+                #Check if the user didnt log in the last day or is loggin from a different ip
+                cursor.execute(
+                    """
+                    SELECT last_logon_time,last_logon_ip,email FROM users WHERE username = ?
+                    """,
+                    (user.username,))
+                userData = cursor.fetchone()
+                yesterdayTime = datetime.now() - timedelta(days=1)
+                if((userData[0] is None) or (userData[1] is None)):
+                    send_verification_email(userData[2])
+                    return {"message": "A Verification Code was sent to youre Email"}
+                
+                last_logon_time = datetime.fromisoformat(userData[0])
+
+                if((last_logon_time < yesterdayTime) or (userData[1] != ip)):
+                    send_verification_email(userEmail)
+                    return {"message": "A Verification Code was sent to youre Email"}
+                else:
+                    return loginUser(ip,existing_user)
 
             
              
@@ -90,6 +108,15 @@ def loginUser(ip,existing_user):
     # login succeeded — clear any previous failed attempts for this IP
     cursor.execute("DELETE FROM login_attempts WHERE ip = ?", (ip,))
     connection.commit()
+
+    cursor.execute(
+            """
+            UPDATE users SET last_logon_ip =?, last_logon_time=?
+            WHERE username=?
+            """,
+            (ip, datetime.now().isoformat(),existing_user[0]))
+    connection.commit()
+
 
     try:
         cursor.execute("""
