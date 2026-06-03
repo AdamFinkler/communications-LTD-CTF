@@ -40,18 +40,22 @@ def login_service(user: LoginDTO, ip: str):
             cursor.execute("SELECT failed_count, last_failed,user_name FROM login_attempts WHERE ip = ?", (ip,))
             failed_attemps = cursor.fetchone()
 
-            if failed_attemps[0] == 3:
+            if failed_attemps[0] >= MAX_ATTEMPTS:
+                return {"message": f"Too many failed attempts. Try again in {LOCKOUT_MINUTES} minute(s)."}
+
+            if failed_attemps[0] >= 3:
                     cursor.execute(
                     """
                     SELECT email FROM users WHERE username = ?
                     """,
                     (failed_attemps[2],))
                     userEmailFetch = cursor.fetchone()
-                    if userEmailFetch != None:
+                    if userEmailFetch is not None and userEmailFetch[0]:
                         userEmail = userEmailFetch[0]
-                        if userEmailFetch:
+                        # only send once — don't re-email on every attempt from 3 onward
+                        if not check_if_code_exists(userEmail):
                             send_verification_email(userEmail)
-                            return {"message": "A Verification Code was sent to youre Email"}
+                        return {"message": "A Verification Code was sent to youre Email"}
                     else:
                         return {"message": "Wrong username or password"}
             else:
