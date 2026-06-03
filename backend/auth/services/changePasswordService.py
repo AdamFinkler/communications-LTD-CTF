@@ -1,22 +1,23 @@
 from auth.dtos.dtos import ChangePasswordDTO
-from auth.services.passwordBlacklist import is_blacklisted
+from auth.services.passwordValidator import validate_password
 from database.connection import connection, cursor
 
 
 def change_password_service(user: ChangePasswordDTO):
-    if is_blacklisted(user.new_password):
-        return {"message": "Password is too common, please choose a stronger one."}
+    errors = validate_password(user.new_password)
+    if errors:
+        return {"message": errors[0]}
 
     try:
         cursor.execute(
             """
-            select username, password FROM users WHERE username = ?
+            SELECT username, password FROM users WHERE username = ?
             """,
             (user.username,)
         )
         existing_user = cursor.fetchone()
 
-        if existing_user == None:
+        if existing_user is None:
             raise Exception("Username does not exist")
 
         if existing_user[1] != user.current_password:
@@ -28,9 +29,9 @@ def change_password_service(user: ChangePasswordDTO):
     try:
         cursor.execute(
             """
-            update users
-            set password = ?
-            where username = ?
+            UPDATE users
+            SET password = ?
+            WHERE username = ?
             """,
             (user.new_password, user.username)
         )
