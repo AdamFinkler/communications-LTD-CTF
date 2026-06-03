@@ -58,3 +58,8 @@ def test_disabled_rule_is_not_enforced():
     config = {**BASE_CONFIG, "must_contain_special": "false"}
     errors = validate_password("Secure123", config)
     assert errors == []
+
+
+def test_empty_password_is_invalid():
+    errors = validate_password("", BASE_CONFIG)
+    assert len(errors) > 0

@@ -10,7 +10,16 @@ def _load_config() -> dict:
         return json.load(f)
 
 
-_CONFIG = _load_config()
+try:
+    _CONFIG = _load_config()
+except (FileNotFoundError, json.JSONDecodeError) as e:
+    raise RuntimeError(f"Could not load password_configuration.json: {e}") from e
+
+
+def _is_enabled(value) -> bool:
+    if isinstance(value, bool):
+        return value
+    return str(value).lower() == "true"
 
 
 def validate_password(password: str, config: dict | None = None) -> list[str]:
@@ -20,29 +29,29 @@ def validate_password(password: str, config: dict | None = None) -> list[str]:
 
     errors = []
 
-    min_length = int(config.get("min_length", "8"))
+    min_length = int(config.get("min_length", 8))
     if len(password) < min_length:
         errors.append(f"Password must be at least {min_length} characters long.")
 
-    if config.get("must_contain_upper", "false").lower() == "true":
+    if _is_enabled(config.get("must_contain_upper", False)):
         if not any(c.isupper() for c in password):
             errors.append("Password must contain at least one uppercase letter.")
 
-    if config.get("must_contain_lower", "false").lower() == "true":
+    if _is_enabled(config.get("must_contain_lower", False)):
         if not any(c.islower() for c in password):
             errors.append("Password must contain at least one lowercase letter.")
 
-    if config.get("must_contain_digit", "false").lower() == "true":
+    if _is_enabled(config.get("must_contain_digit", False)):
         if not any(c.isdigit() for c in password):
             errors.append("Password must contain at least one digit.")
 
-    if config.get("must_contain_special", "false").lower() == "true":
+    if _is_enabled(config.get("must_contain_special", False)):
         if not any(c in _SPECIAL_CHARS for c in password):
             errors.append("Password must contain at least one special character (!@#$%^&* etc.).")
 
     known_raw = config.get("known_passwords", "")
     known = {p.strip() for p in known_raw.split(",") if p.strip()}
-    if password in known:
+    if password.lower() in {p.lower() for p in known}:
         errors.append("Password is too common, please choose a stronger one.")
 
     return errors
