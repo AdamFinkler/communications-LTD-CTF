@@ -13,7 +13,10 @@ def create_customer_service(package_id: int, customer_name: str):
         if package is None:
             raise Exception("Package ID does not exist")
 
-        # Vulnerable: executescript allows stacked SQL (multiple INSERTs from SQLi payload)
+        # Vulnerable to SQL injection: package_id and customer_name are interpolated directly.
+        # Using executescript allows stacked SQL, so payloads like
+        #   x'); INSERT INTO customers (package_id, customer_name) VALUES (1,'attacker'); --
+        # can create additional rows.
         connection.executescript(
             f"""
             INSERT INTO customers (package_id, customer_name)

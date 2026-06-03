@@ -1,25 +1,30 @@
 import { LoginRequest } from "./requests.js";
-import { arrayOfCustomers, arrayOfPackages } from "./global-data.js";
 
 const loginButton = document.querySelector("#login-button");
 const userInput = document.querySelector("#user-input");
 const passwordInput = document.querySelector("#password-input");
+const loginMessage = document.querySelector("#login-message");
 
 loginButton.addEventListener("click", async (event) => {
   event.preventDefault();
 
-  const user = userInput.value;
+  const user = userInput.value.trim();
   const pass = passwordInput.value;
 
-  const data = await LoginRequest({ username: user, password: pass });
-  console.log(`data is ${data}`)
-  arrayOfPackages.push(data.packages);
-  arrayOfCustomers.push(data.customers);
+  if (!user || !pass) {
+    loginMessage.textContent = "Please enter username and password";
+    return;
+  }
 
-  /* Using sessionStorage to store customer and package data,
-      if not data will be lost */
-  sessionStorage.setItem("customers", JSON.stringify(data.customers));
-  sessionStorage.setItem("packages", JSON.stringify(data.packages));
+  const result = await LoginRequest({ username: user, password: pass });
+
+  if (!result.data) {
+    loginMessage.textContent = result.message || "Login failed";
+    return;
+  }
+
+  sessionStorage.setItem("customers", JSON.stringify(result.data.customers));
+  sessionStorage.setItem("packages", JSON.stringify(result.data.packages));
+  sessionStorage.setItem("username", result.username || user);
   window.location.href = "clients.html";
-
 });

@@ -54,6 +54,18 @@
   box-shadow: 0 0 0 2px var(--color-accent-soft);
 }
 
+.forgot-password-link,
+.change-password-link {
+  font-size: 14px;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.forgot-password-link:hover,
+.change-password-link:hover {
+  text-decoration: underline;
+}
+
 /* Button override (better spacing) */
 .form button {
   margin-top: auto;

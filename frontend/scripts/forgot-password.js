@@ -7,32 +7,27 @@ const message = document.querySelector("#forgot-password-message");
 
 let waitingForCode = false;
 
-forgotPasswordButton.addEventListener(
-  "click",
-  async (event) => {
-    event.preventDefault();
+forgotPasswordButton.addEventListener("click", async (event) => {
+  event.preventDefault();
 
-    const payload = {
-      email: emailInput.value,
-      code: waitingForCode
-        ? codeInput.value
-        : null,
-    };
+  const payload = {
+    email: emailInput.value.trim(),
+    code: waitingForCode ? codeInput.value.trim() : null,
+  };
 
-    const result = await ForgotPasswordRequest(payload);
+  const result = await ForgotPasswordRequest(payload);
+  message.textContent = result.hint
+    ? `${result.message}. ${result.hint}`
+    : result.message;
 
-    message.textContent =result.message;
-
-    if (result.message ==="Password reset link sent to email")
-     {
-      waitingForCode = true;
-      codeInput.style.display ="block";
-      forgotPasswordButton.textContent = "Verify Code";
-    }
-
-    if (result.message === "Password reset successful")
-       {
-      window.location.replace("../pages/change-password-after-verification.html");
-    }
+  if (result.message === "Password reset code sent to email") {
+    waitingForCode = true;
+    codeInput.style.display = "block";
+    forgotPasswordButton.textContent = "Verify Code";
   }
-);
+
+  if (result.verified) {
+    sessionStorage.setItem("resetEmail", payload.email);
+    window.location.href = "change-password-after-verification.html";
+  }
+});

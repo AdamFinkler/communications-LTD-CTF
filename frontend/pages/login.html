@@ -3,31 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Login - Communication LTD</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../styles/main.css" />
-    <link rel="stylesheet" href="../styles/registration.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/registration.css" />
   </head>
 
   <body>
     <form class="form login">
-      <h1>Welcome Back</h1>
+      <h1>Communication LTD</h1>
       <p>Login to your account</p>
 
-      <input id = "user-input" type="text" placeholder="Username" required />
-      <input id = "password-input" type="password" placeholder="Password" required />
+      <input id="user-input" type="text" placeholder="Username" required />
+      <input id="password-input" type="password" placeholder="Password" required />
 
       <button id="login-button" type="submit">Login</button>
       <a class="change-password-link" href="./change-password.html">Change password</a>
       <a class="forgot-password-link" href="./forgot-password.html">Forgot password</a>
+      <a class="change-password-link" href="./main.html">Back to home</a>
+      <p id="login-message"></p>
     </form>
 
-    <script type="module" src="../scripts/requests.js"></script>
-    <script type="module" src="../scripts/main.js"></script>
+    <script type="module" src="/scripts/main.js"></script>
   </body>
 </html>
