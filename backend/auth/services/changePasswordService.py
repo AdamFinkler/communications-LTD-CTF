@@ -1,5 +1,6 @@
 from auth.dtos.dtos import ChangePasswordDTO
 from auth.services.passwordValidator import validate_password
+from auth.services.passwordHasher import hash_password, verify_password
 from database.connection import connection, cursor
 
 
@@ -11,7 +12,7 @@ def change_password_service(user: ChangePasswordDTO):
     try:
         cursor.execute(
             """
-            SELECT username, password FROM users WHERE username = ?
+            SELECT username, password, salt FROM users WHERE username = ?
             """,
             (user.username,)
         )
@@ -20,20 +21,22 @@ def change_password_service(user: ChangePasswordDTO):
         if existing_user is None:
             raise Exception("Username does not exist")
 
-        if existing_user[1] != user.current_password:
+        if not verify_password(user.current_password, existing_user[1], existing_user[2]):
             raise Exception("Current password is incorrect")
 
     except Exception as e:
         return {"message": str(e)}
 
+    new_hash, new_salt = hash_password(user.new_password)
+
     try:
         cursor.execute(
             """
             UPDATE users
-            SET password = ?
+            SET password = ?, salt = ?
             WHERE username = ?
             """,
-            (user.new_password, user.username)
+            (new_hash, new_salt, user.username)
         )
         connection.commit()
 

@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime, timedelta
 from auth.dtos.dtos import LoginDTO
+from auth.services.passwordHasher import verify_password
 from database.connection import connection, cursor
 
 MAX_ATTEMPTS = 5
@@ -22,11 +23,16 @@ def login_service(user: LoginDTO, ip: str):
     try:
         cursor.execute(
             """
-            SELECT username, password FROM users WHERE username = ? AND password = ?
+            SELECT username, password, salt FROM users WHERE username = ?
             """
-        , (user.username, user.password))
+        , (user.username,))
 
         existing_user = cursor.fetchone()
+
+        if existing_user is None or not verify_password(
+            user.password, existing_user[1], existing_user[2]
+        ):
+            existing_user = None
 
         if existing_user is None:
             # increment failed attempts

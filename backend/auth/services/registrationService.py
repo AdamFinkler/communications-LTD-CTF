@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 import sqlite3
 from auth.dtos.dtos import RegisterDTO
 from auth.services.passwordValidator import validate_password
+from auth.services.passwordHasher import hash_password
 from database.connection import connection, cursor
 
 def registration_service(user: RegisterDTO):
@@ -9,13 +10,15 @@ def registration_service(user: RegisterDTO):
     if errors:
         return {"message": errors[0]}
 
+    password_hash, salt = hash_password(user.password)
+
     try:
         cursor.execute(
             """
-            INSERT INTO users (username, email, password)
-            VALUES (?, ?, ?)
+            INSERT INTO users (username, email, password, salt)
+            VALUES (?, ?, ?, ?)
             """,
-            (user.username, user.email, user.password)
+            (user.username, user.email, password_hash, salt)
         )
 
         connection.commit()
