@@ -6,7 +6,9 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    salt TEXT NOT NULL
+    salt TEXT NOT NULL,
+    last_logon_time TEXT,
+    last_logon_ip TEXT
 )
 """)
 
@@ -57,6 +59,7 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS login_attempts (
     ip          TEXT PRIMARY KEY,
     failed_count INTEGER DEFAULT 0,
+    user_name TEXT,
     last_failed  TEXT
 )
 """)
