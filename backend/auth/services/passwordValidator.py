@@ -1,5 +1,7 @@
 import json
 from pathlib import Path
+from auth.services.passwordHasher import verify_password
+
 
 _CONFIG_PATH = Path(__file__).parent.parent.parent.parent / "password_configuration.json"
 _SPECIAL_CHARS = set("!@#$%^&*()_+-=[]{}|;':\",./<>?")
@@ -22,7 +24,7 @@ def _is_enabled(value) -> bool:
     return str(value).lower() == "true"
 
 
-def validate_password(password: str, config: dict | None = None) -> list[str]:
+def validate_password(password: str, config: dict| None = None) -> list[str]:
     """Return a list of rule-violation messages. Empty list means the password is valid."""
     if config is None:
         config = _CONFIG

@@ -4,7 +4,7 @@ from auth.dtos.dtos import RegisterDTO
 from auth.services.passwordValidator import validate_password
 from auth.services.passwordHasher import hash_password
 from database.connection import connection, cursor
-
+from auth.services.passwordHistory import add_password_to_history
 def registration_service(user: RegisterDTO):
     errors = validate_password(user.password)
     if errors:
@@ -23,6 +23,8 @@ def registration_service(user: RegisterDTO):
 
         connection.commit()
 
+        add_password_to_history(user.username,password_hash,salt)
+        connection.commit()
         return {
             "status_code": status.HTTP_201_CREATED,
             "message": "User registered successfully",

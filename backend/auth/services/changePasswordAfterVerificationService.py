@@ -2,13 +2,16 @@ from auth.dtos.dtos import ChangePasswordAVDTO
 from auth.services.passwordValidator import validate_password
 from auth.services.passwordHasher import hash_password
 from database.connection import connection, cursor
-
+from auth.services.passwordHistory import password_in_history,save_password_history
 
 def change_password_service_after_verification_service(user: ChangePasswordAVDTO):
-    errors = validate_password(user.new_password)
+    errors = validate_password(user.new_password) 
     if errors:
         return {"message": errors[0]}
 
+    if password_in_history(user.username,user.new_password):
+        return{"message":"You can use youre recent passwords"}
+    
     new_hash, new_salt = hash_password(user.new_password)
 
     try:
@@ -22,6 +25,9 @@ def change_password_service_after_verification_service(user: ChangePasswordAVDTO
         )
         connection.commit()
 
+        save_password_history(user.username,new_hash,new_salt)
+        
+        connection.commit()
         return {"message": "Password changed successfully"}
 
     except Exception as e:

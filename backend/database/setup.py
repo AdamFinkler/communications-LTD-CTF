@@ -64,4 +64,14 @@ CREATE TABLE IF NOT EXISTS login_attempts (
 )
 """)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS password_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password_hash TEXT NOT NULL,
+    salt TEXT NOT NULL
+)
+""")
+
+
 connection.commit()
