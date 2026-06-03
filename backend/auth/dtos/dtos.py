@@ -17,11 +17,11 @@ class ChangePasswordDTO(BaseModel):
     new_password: str
 
 class ChangePasswordAVDTO(BaseModel):
-    username: str
+    email: EmailStr
     new_password: str
 
 class ForgotPasswordDTO(BaseModel):
-    email: Optional[EmailStr] = None
+    email: EmailStr
     code: Optional[str] = None
 
 
@@ -36,3 +36,6 @@ class CreateCustomerDTO(BaseModel):
     package_id: int
     customer_name: str
 
+
+class DeleteCustomerDTO(BaseModel):
+    customer_id: int
