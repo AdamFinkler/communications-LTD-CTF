@@ -1,15 +1,24 @@
 from auth.dtos.dtos import ChangePasswordAVDTO
+from auth.services.passwordValidator import validate_password
+from auth.services.passwordHasher import hash_password
 from database.connection import connection, cursor
 
 
 def change_password_service_after_verification_service(user: ChangePasswordAVDTO):
+    errors = validate_password(user.new_password)
+    if errors:
+        return {"message": errors[0]}
+
+    new_hash, new_salt = hash_password(user.new_password)
+
     try:
         cursor.execute(
-            f"""
-            update users
-            set password = '{user.new_password}'
-            where username = '{user.username}'
             """
+            UPDATE users
+            SET password = ?, salt = ?
+            WHERE username = ?
+            """,
+            (new_hash, new_salt, user.username)
         )
         connection.commit()
 

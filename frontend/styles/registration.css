@@ -18,11 +18,12 @@
   flex-direction: column;
   gap: 15px;
   margin: 0 auto;
+  height: auto;
 }
 
 .login
 {
- height: 60%;
+	height: auto;
 }
 
 /* Form text */
@@ -44,7 +45,7 @@
   border: 1px solid var(--color-border);
   font-family: 'Inter', sans-serif;
   transition: var(--transition);
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   min-width: 300px;
 }
 
@@ -56,7 +57,6 @@
 
 /* Button override (better spacing) */
 .form button {
-  margin-top: auto;
   width: fit-content;
   align-self: center;
 }

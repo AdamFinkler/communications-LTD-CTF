@@ -15,15 +15,18 @@
   </head>
 
   <body>
+    <button onclick="window.location.href='./main.html'" style="position:fixed;top:20px;right:24px;z-index:100">Return to Homepage</button>
     <form class="form login">
       <h1>Welcome Back</h1>
       <p>Login to your account</p>
 
       <input id = "user-input" type="text" placeholder="Username" required />
       <input id = "password-input" type="password" placeholder="Password" required />
+      <input id="code-input" type="text" placeholder="Enter verification code" style="display:none" />
 
+      <span id="login-error" style="color:var(--color-primary);font-size:14px;display:none"></span>
       <button id="login-button" type="submit">Login</button>
-      <a class="change-password-link" href="./change-password.html">Change password</a>
+      <a class="change-password-link" href="./change-password.html"></a>
       <a class="forgot-password-link" href="./forgot-password.html">Forgot password</a>
     </form>
 

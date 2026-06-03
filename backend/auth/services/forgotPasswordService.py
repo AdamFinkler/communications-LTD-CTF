@@ -1,7 +1,7 @@
 import sqlite3
 import hmac
 from auth.dtos.dtos import ForgotPasswordDTO
-from database.connection import connection, cursor
+from database.connection import cursor
 import hashlib
 import smtplib
 from email.message import EmailMessage
@@ -28,9 +28,10 @@ def reset_password(user: ForgotPasswordDTO):
     
         try:
             cursor.execute(
-                f"""
-                select email FROM users WHERE email = '{user.email}' 
                 """
+                select email FROM users WHERE email = ?
+                """,
+                (user.email,)
             )
 
             existing_user = cursor.fetchone()
