@@ -10,7 +10,7 @@ def change_password_service_after_verification_service(user: ChangePasswordAVDTO
         return {"message": errors[0]}
 
     if password_in_history(user.username,user.new_password):
-        return{"message":"You can use youre recent passwords"}
+        return{"message":"You can't use your recent passwords"}
     
     new_hash, new_salt = hash_password(user.new_password)
 

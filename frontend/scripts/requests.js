@@ -22,6 +22,24 @@ export const LoginRequest = async (data) => {
   }
 };
 
+export const RegisterRequest = async (data) => {
+  try {
+    const response = await fetch(`${baseURL}/auth/registration`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: "Registration failed. Please try again." };
+  }
+};
+
 export const ForgotPasswordRequest = async (data) => {
   try {
     const response = await fetch(`${baseURL}/auth/forgot-password`, {

@@ -16,15 +16,19 @@
 
   <body>
     <button onclick="window.location.href='./main.html'" style="position:fixed;top:20px;right:24px;z-index:100">Return to Homepage</button>
-    <form class="form">
+    <form class="form" id="registration-form">
       <h1>Create Account</h1>
       <p>Join Communication LTD today</p>
 
-      <input type="text" placeholder="Username" required />
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
+      <input id="username-input" type="text" placeholder="Username" required />
+      <input id="email-input" type="email" placeholder="Email" required />
+      <input id="password-input" type="password" placeholder="Password" required />
 
+      <span id="registration-message" style="color:var(--color-primary);font-size:14px"></span>
       <button type="submit">Register</button>
     </form>
+
+    <script type="module" src="../scripts/requests.js"></script>
+    <script type="module" src="../scripts/registration.js"></script>
   </body>
 </html>

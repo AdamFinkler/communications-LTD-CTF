@@ -11,7 +11,7 @@ def change_password_service(user: ChangePasswordDTO):
         return {"message": errors[0]}
 
     if password_in_history(user.username,user.new_password):
-        return{"message":"You can use youre recent passwords"}
+        return{"message":"You can't use your recent passwords"}
     
 
     try:

@@ -41,7 +41,7 @@ const renderCustomerRow = (packageId, customerName) => {
   customerRow.appendChild(b);
 
   container.appendChild(customerRow);
-  attachDeleteListener(b);
+  attachDeleteListener(b, customerRow);
 };
 
 const renderPackageDropdown = () => {
@@ -54,14 +54,14 @@ const renderPackageDropdown = () => {
 };
 
 // Event Handlers
-const handleDelete = async (customerName) => {
+const handleDelete = async (customerName, customerRow) => {
   const result = await DeleteCustomerRequest(customerName);
 
   if (result.message.includes("successfully")) {
     customers = customers.filter(([_, name]) => name !== customerName);
     sessionStorage.setItem("customers", JSON.stringify(customers));
 
-    document.querySelector(`[data-customer="${customerName}"]`).remove();
+    customerRow.remove();
   } else {
     alert("Error: " + result.message);
   }
@@ -91,11 +91,11 @@ const handleCreateCustomer = async (e) => {
   }
 };
 
-const attachDeleteListener = (btn) => {
+const attachDeleteListener = (btn, customerRow) => {
   btn.addEventListener("click", (e) => {
     const customerName = e.target.getAttribute("data-customer");
     if (confirm(`Are you sure you want to delete ${customerName}?`)) {
-      handleDelete(customerName);
+      handleDelete(customerName, customerRow);
     }
   });
 };

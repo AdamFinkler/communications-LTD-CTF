@@ -44,14 +44,14 @@ VALUES
 
 
 cursor.execute("""
-INSERT or ignore INTO customers (package_id, customer_name)
+INSERT or ignore INTO customers (id, package_id, customer_name)
 VALUES
-    (2, 'Pizza America'),
-    (3, 'Southern Garage Ltd'),
-    (1, 'Blue Market Cafe'),
-    (4, 'TechVision Office'), 
-    (4, 'KSP'),
-    (3, 'Ivory')
+    (1, 2, 'Pizza America'),
+    (2, 3, 'Southern Garage Ltd'),
+    (3, 1, 'Blue Market Cafe'),
+    (4, 4, 'TechVision Office'),
+    (5, 4, 'KSP'),
+    (6, 3, 'Ivory')
                """)
 
 
