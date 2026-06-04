@@ -33,3 +33,24 @@ __pycache__/
 .vscode/
 
 These are already ignored by .gitignore.
+
+
+-----------------------------------------
+
+!!!!! VERY IMPORTANT !!!!!
+
+ 1. replace the .vscode/settings.json with this:
+
+{
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    "**/*.db",
+    "**/*.db-journal",
+    "**/*.db-wal",
+    "**/*.db-shm",
+    "backend/**"
+  ]
+}
+
+ 2. Then stop and restart Live Server (click "Port: 5500" in the status bar to stop, then right-click the page → Open with Live Server), and hard-refresh the browser (Ctrl+Shift+R).
+
