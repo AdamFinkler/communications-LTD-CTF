@@ -1,7 +1,10 @@
 from database.connection import connection, cursor
+from auth.services.inputSanitizer import encode_input
 
 def create_customer_service(package_id: int, customer_name: str):
     try:
+        customer_name = encode_input(customer_name)
+
         cursor.execute(
             """
             SELECT id FROM packages WHERE id = ?
