@@ -21,7 +21,7 @@ def verify_code(email, code):
     hashed_code = hmac.new(
         SECRET_KEY.encode(),
         code.encode(),
-        hashlib.sha1
+        hashlib.sha256
     ).hexdigest()
 
     if hmac.compare_digest(hash_dic[email], hashed_code):
@@ -35,7 +35,7 @@ def code_hash(email):
     hash_dic[email] = hmac.new(
         SECRET_KEY.encode(),
         code.encode(),
-        hashlib.sha1
+        hashlib.sha256
     ).hexdigest()
     return code 
 
