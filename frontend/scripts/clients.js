@@ -81,9 +81,10 @@ const handleCreateCustomer = async (e) => {
   const result = await CreateCustomerRequest(packageId, customerName);
 
   if (result.message.includes("successfully")) {
-    customers.push([packageId, customerName]);
+    const storedName = result.customer_name;
+    customers.push([packageId, storedName]);
     sessionStorage.setItem("customers", JSON.stringify(customers));
-    renderCustomerRow(packageId, customerName);
+    renderCustomerRow(packageId, storedName);
     customerForm.reset();
     modal.classList.remove("active");
   } else {
