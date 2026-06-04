@@ -17,6 +17,16 @@ let customers = JSON.parse(sessionStorage.getItem("customers"));
 const packages = JSON.parse(sessionStorage.getItem("packages"));
 const packageMap = Object.fromEntries(packages.map((p) => [p[0], p]));
 
+// Reverse of html.escape(quote=True). &amp; is decoded LAST so that an
+// encoded literal like "&amp;lt;" becomes "&lt;", not "<".
+const decodeHtml = (str) =>
+  str
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&amp;", "&");
+
 // Render Functions
 const renderCustomerRow = (packageId, customerName) => {
   const pkg = packageMap[packageId];
@@ -28,7 +38,7 @@ const renderCustomerRow = (packageId, customerName) => {
   const p2 = document.createElement("p");
   const p3 = document.createElement("p");
   const b = document.createElement("button");
-  p1.textContent = customerName;
+  p1.textContent = decodeHtml(customerName);
   p2.textContent = pkg ? pkg[1] : "Unknown";
   p3.textContent = pkg ? `$${Number(pkg[4]).toFixed(2)}` : "-";
   b.setAttribute("class","delete-btn");
